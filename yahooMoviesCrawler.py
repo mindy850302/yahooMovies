@@ -40,6 +40,11 @@ def get_data():
             print("電影英文名稱：" + str(movie_englishName[0].text))
             english_name = str(movie_englishName[0].text)
 
+            #----------電影介紹----------
+            movie_intro_block = sp.select(".gray_infobox_inner")
+            movie_intro = movie_intro_block[0].find_all('span')[0].text
+            print("電影介紹：" + movie_intro)
+
             #----------電影分類----------
             category=""
             movie_category_block = movie_infor[0].select('.level_name_box')
