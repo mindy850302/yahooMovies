@@ -100,6 +100,17 @@ def get_data():
                 #         print(movie_actor[i].text)
                 actor = movie_intro_list[1].text.replace('\n','').replace(' ','').replace('、',',')
 
+                #----------官方網站--------
+                movie_url_company = movie_infor[0].find_all('a', attrs={'class':'gabtn','target':'_blank'})
+                movie_url_array = []
+                #movie_url_company = movie_infor[0].find_all('a', attrs={'data-ga':'[\'電影介紹\',\'電影介紹_類型icon\',\'劇情\']'})
+                for a in range(len(movie_url_company)):
+                    print(movie_url_company[a].text)
+                    movie_url_array.append(movie_url_company[a].text)
+                movie_url_json = json.dumps(movie_url_array, ensure_ascii=False)
+                print(movie_url_json)
+
+                #----------期待度--------
                 evaluatebox = sp.select(".evaluatebox")#尋找電影資訊相關區塊 -- select 網頁中class名為l_box_inner的tag 
                 #print(evaluatebox)
 
@@ -115,6 +126,7 @@ def get_data():
                 print(expectation_people_vote[0].text[2:-4])
                 expectation_people = expectation_people_vote[0].text[2:-4]
 
+                #----------滿意度--------
                 satisfaction = evaluatebox[0].find_all('dd')
                 #print(satisfaction)
                 satisfaction_people_vote = satisfaction[0].find_all('span')
@@ -125,13 +137,13 @@ def get_data():
                 print("滿意度："+str(satisfaction_value)+"%")
                 print(satisfaction_people_vote[0].text[2:-4])
                 satisfaction_people = satisfaction_people_vote[0].text[2:-4]
-                
-                
+
+
                 connect_to_mysql(name,english_name,category,
                        release,time,company,director,
                        actor,expectation_value,expectation_people,
                        satisfaction_value,satisfaction_people,movie_poster_url)
-            
+
 def connect_to_mysql(name,english_name,category, release,time,company,director, actor,expectation_value,expectation_people, satisfaction_value,satisfaction_people,movie_photo_url): 
     cnx = mysql.connector.connect(user='username', password='password', host='127.0.0.1', database='movie')
 
